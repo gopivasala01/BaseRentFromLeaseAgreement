@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -55,6 +56,7 @@ public class RunnerClass
 				{
 					try
 					{
+
 					ID = pendingLeases[i][0];
 					company = pendingLeases[i][1];
 					leaseEntityID = pendingLeases[i][2];
@@ -70,6 +72,7 @@ public class RunnerClass
 					PDFFormatType= "";
 					baseRent = "";
 					System.out.println("Lease --"+leaseEntityID+"-- "+(i+1));
+				
 					if(PropertyWare.selectLease()==false)
 					{
 						String query = "Update Automation.BaseRentFromLeaseAgreements set Automation_Status='Failed',Automation_Notes='"+failedReason+"',Automation_CompletionDate =getdate() where ID = '"+ID+"'";
@@ -129,6 +132,11 @@ public class RunnerClass
 					{
 						continue;
 					}
+					try
+					{
+						FileUtils.cleanDirectory(new File(AppConfig.downloadFilePath));
+					}
+					catch(Exception e) {}
 					//break;
 				}
 	}
