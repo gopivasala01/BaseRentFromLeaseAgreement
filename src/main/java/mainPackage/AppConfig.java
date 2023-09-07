@@ -8,8 +8,8 @@ public class AppConfig
 	   public static String username ="mds0418@gmail.com";
 	   public static String password ="KRm#V39fecMDGg#";
 	   
-	   public static String excelFileLocation = "E:\\Automation\\Base Rent Update";
-	   public static String downloadFilePath = "E:\\Automation\\Base Rent Update";
+	   public static String excelFileLocation = "C:\\Users\\gopi\\Documents\\BaseRent Update Files";
+	   public static String downloadFilePath = "C:\\Users\\gopi\\Documents\\BaseRent Update Files";
 	   
 	   public static String buildingPageURL = "https://app.propertyware.com/pw/leases/lease_detail.do?entityID=";
 	   //Mail credentials
