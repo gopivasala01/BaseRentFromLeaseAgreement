@@ -336,11 +336,18 @@ public class PropertyWare
 		{
 			for(int j=0;j<AppConfig.LeaseAgreementFileNames.length;j++)
 			{
-			 if((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&!documents.get(i).getText().contains("Termination")&&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
+			 if((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&!documents.get(i).getText().contains("Lease Modification")&&!documents.get(i).getText().contains("Lease_Modification")&&!documents.get(i).getText().contains("Termination")&&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
 			 {
 			 	documents.get(i).click();
 				checkLeaseAgreementAvailable = true;
 				break;
+			 }
+			 else {
+				 if(documents.get(i).getText().contains("MTM Letter") ||documents.get(i).getText().contains("MTM_Letter")) {
+					 RunnerClass.failedReason =  RunnerClass.failedReason+"Lease has Month to Month Agreement";
+					 return false;
+					 
+				 }
 			 }
 			}
 			if(checkLeaseAgreementAvailable == true)
