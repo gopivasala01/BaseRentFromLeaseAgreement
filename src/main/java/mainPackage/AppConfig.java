@@ -21,7 +21,7 @@ public class AppConfig
 	   
 	   public static String mailSubject = "Base Rent Update for  ";
 	   
-	   public static String[] LeaseAgreementFileNames = {"Full Lease","Full_Lease","RT_Full_Lease","RT Full Lease","REVISED_Lease_","Lease_","Leases_","_Lease"};
+	   public static String[] LeaseAgreementFileNames = {"Full Lease","Full_Lease","RT_Full_Lease","RT Full Lease","Renewal Lease","Renewal_Lease","REVISED_Lease_","Lease_","Leases_","_Lease"};
 	   
 	   public static String[] IAGClientList = {"510.","AVE.","BTH.","CAP.","FOR.","HRG.","HS.","MAN.","MCH.","OFF.","PIN.","RF.","SFR3.","TH.","HH.","Lofty.Ai","TA."};
 	   
