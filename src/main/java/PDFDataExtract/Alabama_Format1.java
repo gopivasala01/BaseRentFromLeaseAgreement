@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+
 import mainPackage.PDFReader;
 import mainPackage.RunnerClass;
 
@@ -21,11 +24,13 @@ public class Alabama_Format1
 		File file = RunnerClass.getLastModified();
 		//File file = new File("C:\\SantoshMurthyP\\Lease Audit Automation\\Lease_02.22_02.23_200_Doc_Johns_Dr_ATX_Smith (3).pdf");
 		FileInputStream fis = new FileInputStream(file);
-		PDDocument document = PDDocument.load(fis);
-	    text = new PDFTextStripper().getText(document);
+		//PDDocument document = PDDocument.load(fis);
+		PdfReader document = new PdfReader(fis);
+	    //text = new PDFTextStripper().getText(document);
+		String text=PdfTextExtractor.getTextFromPage(document, 1);
 	    text = text.replaceAll(System.lineSeparator(), " ");
 	    text = text.trim().replaceAll(" +", " ");
-	    //System.out.println(text);
+	    System.out.println(text);
 	    System.out.println("------------------------------------------------------------------");
 	    try
 	    {

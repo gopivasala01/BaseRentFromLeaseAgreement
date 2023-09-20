@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
+
 import mainPackage.PDFReader;
 import mainPackage.RunnerClass;
 
@@ -20,10 +25,16 @@ public class Alabama_Format2
 		File file = RunnerClass.getLastModified();
 		FileInputStream fis = new FileInputStream(file);
 		PDDocument document = PDDocument.load(fis);
+		//PdfReader document = new PdfReader(fis);
 	    text = new PDFTextStripper().getText(document);
+		/*for(int i = 1; i <= document.getNumberOfPages(); i++) {
+			String data =PdfTextExtractor.getTextFromPage(document,i);
+			text = text + data;
+		}
+		*/
 	    text = text.replaceAll(System.lineSeparator(), " ");
 	    text = text.trim().replaceAll(" +", " ");
-	    //System.out.println(text);
+	    System.out.println(text);
 	    System.out.println("------------------------------------------------------------------");
 	    
 	    try

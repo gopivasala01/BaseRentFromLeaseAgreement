@@ -334,8 +334,15 @@ public class PropertyWare
 		 
 		for(int i =0;i<documents.size();i++)
 		{
+			for (int k=0;k<AppConfig.LeaseModificationFileNames.length;k++) {
+				if(documents.get(i).getText().startsWith(AppConfig.LeaseModificationFileNames[k])){
+					RunnerClass.failedReason =  RunnerClass.failedReason+AppConfig.LeaseModificationFileNames[k]+" document is available";
+					 return false;
+				}
+			}
 			for(int j=0;j<AppConfig.LeaseAgreementFileNames.length;j++)
 			{
+			
 			 if((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&!documents.get(i).getText().contains("Lease Modification")&&!documents.get(i).getText().contains("Lease_Modification")&&!documents.get(i).getText().contains("Termination")&&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
 			 {
 			 	documents.get(i).click();
