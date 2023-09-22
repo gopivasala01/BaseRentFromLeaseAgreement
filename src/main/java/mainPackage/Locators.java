@@ -26,6 +26,10 @@ public class Locators
     public static By evictionNotAllowportalCheckbox = By.xpath("//input[@id='notAllowPortalAccess']");
     public static By saveEvictionPopUp = By.xpath("//div[@classname='primaryButtons']//input[@value='Save']");
     
+    
+    public static By leaseStartDate = By.xpath("//table[@id='infoTable']//tr[3]//td[1]");
+    public static By leaseEndDate = By.xpath("//table[@id='infoTable']//tr[3]//td[2]");
+    
     public static By summaryEditButton = By.xpath("//*[@value='Edit']");
     public static By utilityConnectionRequest = By.xpath("//*[text()='Utility Connection Request']/following::Select[1]");
     public static By lockBoxCode = By.xpath("//*[text()='Lockbox Code']/following::input[1]");

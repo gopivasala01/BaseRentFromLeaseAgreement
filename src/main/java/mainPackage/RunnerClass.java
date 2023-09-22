@@ -40,6 +40,10 @@ public class RunnerClass
 	
 	public static String PDFFormatType= "";
 	public static String baseRent = "";
+	public static String leaseStartDatefromPW ;
+	public static String leaseEndDatefromPW ;
+	public static String leaseStartDateFromDocument;
+	public static String leaseEndDateFromDocument;
 	
 	public static void main(String args[])
 	{
@@ -71,6 +75,10 @@ public class RunnerClass
 					failedReason ="";
 					PDFFormatType= "";
 					baseRent = "";
+					leaseStartDatefromPW = "";
+					leaseEndDatefromPW = "";
+					leaseStartDateFromDocument = "";
+					leaseEndDateFromDocument = "";
 					System.out.println("Lease --"+leaseEntityID+"-- "+(i+1));
 				
 					if(PropertyWare.selectLease()==false)
@@ -80,16 +88,16 @@ public class RunnerClass
 						previousRecordCompany= company;
 						continue;
 					}
-					if(PropertyWare.downloadLeaseAgreement()==false)
+					/*if(PropertyWare.downloadLeaseAgreementAndCompareStartDate()==false)
 					{
 						String query = "Update Automation.BaseRentFromLeaseAgreements set Automation_Status='Failed',Automation_Notes='"+failedReason+"',Automation_CompletionDate =getdate() where ID = '"+ID+"'";
 						DataBase.updateTable(query);
 						previousRecordCompany= company;
 						continue;
-					}
-					if(PDFReader.readPDFPerMarket(company)==true)
+					}*/
+					if(PropertyWare.downloadLeaseAgreementAndCompareStartDate()==true)
 					{
-					baseRent = PDFReader.monthlyRent;
+					//baseRent = PDFReader.monthlyRent;
 					String query = "Update Automation.BaseRentFromLeaseAgreements set BaseRentFromAutoCharges='"+baseRent+"',Automation_Status='Completed',Automation_Notes='"+failedReason+"',Automation_CompletionDate =getdate() where ID = '"+ID+"'";
 							
 					DataBase.updateTable(query);

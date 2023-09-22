@@ -132,6 +132,26 @@ public class PropertyWare
 	        {
 	        	
 	        }
+	        boolean leasedatecheck = false;
+	        try {
+	        	RunnerClass.leaseStartDatefromPW = RunnerClass.driver.findElement(Locators.leaseStartDate).getText().trim();
+	        	RunnerClass.leaseEndDatefromPW = RunnerClass.driver.findElement(Locators.leaseEndDate).getText().trim();
+	        	String todaydate = CommonMethods.getCurrentDate();
+	        	if(CommonMethods.compareBeforeDates(RunnerClass.leaseStartDatefromPW, todaydate) && CommonMethods.compareAfterDates(RunnerClass.leaseEndDatefromPW, todaydate)) {
+	        		leasedatecheck = true;
+	        		System.out.println("This is the current Lease");
+	        	}
+	        	else {
+	        		System.out.println("This Lease is not a current Lease");
+	        		RunnerClass.failedReason = "Lease dates are not within the range of current date";
+	        		return false;
+	        	}
+	        }
+	        catch(Exception e){
+	        	
+	        }
+	        
+	        
 	        
 	        return true;
 	        /*
@@ -265,6 +285,76 @@ public class PropertyWare
 	}
 
 
+	public static boolean downloadLeaseAgreementAndCompareStartDate() throws Exception{
+		PropertyWare.intermittentPopUp();
+		RunnerClass.driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+        RunnerClass.wait = new WebDriverWait(RunnerClass.driver, Duration.ofSeconds(5));
+		
+		try
+		{
+			RunnerClass.driver.manage().timeouts().implicitlyWait(15,TimeUnit.SECONDS);
+	        RunnerClass.wait = new WebDriverWait(RunnerClass.driver, Duration.ofSeconds(15));
+	        RunnerClass.js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+
+			
+			RunnerClass.driver.findElement(Locators.notesAndDocs).click();
+			
+			List<WebElement> documents = RunnerClass.driver.findElements(Locators.documentsList);
+			boolean checkLeaseAgreementAvailable = false;
+			 
+			for(int i =0;i<documents.size();i++)
+			{
+				for(int j=0;j<AppConfig.LeaseAgreementFileNames.length;j++)
+				{
+				
+				 if((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&!documents.get(i).getText().contains("Sign_Renewal_")&&
+						 !documents.get(i).getText().contains("short_Renewal_")&&!documents.get(i).getText().contains("Lease_Modification")
+						 &&!documents.get(i).getText().contains("Lease Modification")&&!documents.get(i).getText().contains("Termination")
+						 &&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
+				 {
+				 	documents.get(i).click();
+				 	Thread.sleep(10000);
+					File file = RunnerClass.getLastModified();
+					
+					FluentWait<WebDriver> wait = new FluentWait<WebDriver>(RunnerClass.driver).withTimeout(Duration.ofSeconds(25)).pollingEvery(Duration.ofMillis(100));
+					wait.until( x -> file.exists());
+					Thread.sleep(5000);
+					PDFReader.readPDFPerMarket(RunnerClass.company);
+					RunnerClass.leaseStartDateFromDocument = CommonMethods.convertDate(PDFReader.commencementDate);
+					RunnerClass.leaseEndDateFromDocument = CommonMethods.convertDate(PDFReader.expirationDate);
+					if(RunnerClass.leaseStartDatefromPW.equals(RunnerClass.leaseStartDateFromDocument)&& RunnerClass.leaseEndDatefromPW.equals(RunnerClass.leaseEndDateFromDocument)) {
+						RunnerClass.baseRent = PDFReader.monthlyRent;
+						checkLeaseAgreementAvailable = true;
+						break;
+					}
+					 
+					
+				 }
+				
+				 }
+				if(checkLeaseAgreementAvailable == true) {
+					break;
+				}
+				
+			}
+			if(checkLeaseAgreementAvailable==false)
+			{
+				System.out.println("Lease Agreement not found");
+				RunnerClass.failedReason =  RunnerClass.failedReason+","+ "Lease Agreement not found";
+				return false;
+			}
+		}
+		
+		catch(Exception e) {
+			System.out.println("Unable to download Lease Agreement");
+		    RunnerClass.failedReason =  RunnerClass.failedReason+","+"Unable to download Lease Agreement";
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 	public static boolean downloadLeaseAgreement() throws Exception
 	{
 		PropertyWare.intermittentPopUp();
@@ -343,9 +433,10 @@ public class PropertyWare
 			for(int j=0;j<AppConfig.LeaseAgreementFileNames.length;j++)
 			{
 			
-			 if((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&!documents.get(i).getText().contains("Lease Modification")&&!documents.get(i).getText().contains("Lease_Modification")&&!documents.get(i).getText().contains("Termination")&&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
+			 if((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&!documents.get(i).getText().contains("Sign_Renewal_")&&!documents.get(i).getText().contains("short_Renewal_")&&!documents.get(i).getText().contains("Termination")&&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
 			 {
 			 	documents.get(i).click();
+			 	
 				checkLeaseAgreementAvailable = true;
 				break;
 			 }
