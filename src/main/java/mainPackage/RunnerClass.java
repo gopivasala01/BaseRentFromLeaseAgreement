@@ -95,8 +95,10 @@ public class RunnerClass
 						previousRecordCompany= company;
 						continue;
 					}*/
+					
 					if(PropertyWare.downloadLeaseAgreementAndCompareStartDate()==true)
 					{
+					//PDFDataExtract.Alabama_Format2.CheckboxExtractor();
 					//baseRent = PDFReader.monthlyRent;
 					String query = "Update Automation.BaseRentFromLeaseAgreements set BaseRentFromAutoCharges='"+baseRent+"',Automation_Status='Completed',Automation_Notes='"+failedReason+"',Automation_CompletionDate =getdate() where ID = '"+ID+"'";
 							

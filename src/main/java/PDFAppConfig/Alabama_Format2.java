@@ -3,6 +3,7 @@ package PDFAppConfig;
 public class Alabama_Format2 
 {
 	public static String commensementDate_Prior = "shall commence on";
+	public static String commensementDate_Prior_Renewal = "Initial Term";
 	public static String commensementDate_After = " (the �Commencement Date�)";
 	
 	public static String expirationDate_Prior = "Premises) on ";

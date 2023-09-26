@@ -3,14 +3,30 @@ package PDFDataExtract;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfObject;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
+
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import mainPackage.PDFReader;
 import mainPackage.RunnerClass;
@@ -34,15 +50,26 @@ public class Alabama_Format2
 		*/
 	    text = text.replaceAll(System.lineSeparator(), " ");
 	    text = text.trim().replaceAll(" +", " ");
-	    //System.out.println(text);
+	    System.out.println(text);
 	    System.out.println("------------------------------------------------------------------");
 	    
 	    try
 	    {
+	    	if(text.indexOf(PDFAppConfig.Alabama_Format2.commensementDate_Prior) == -1) {
+	    		String commensementRaw = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.commensementDate_Prior_Renewal, text.indexOf(PDFAppConfig.Alabama_Format2.commensementDate_Prior_Renewal) + 1)+PDFAppConfig.Alabama_Format2.commensementDate_Prior_Renewal.length()+1).trim();//,text.indexOf(PDFAppConfig.Alabama_Format2.commensementDate_After)).trim();
+		    	 PDFReader.commencementDate = commensementRaw.substring(0, commensementRaw.indexOf('C')).trim();
+		    	 PDFReader.commencementDate = PDFReader.commencementDate.trim().replaceAll(" +", " ");
+			    System.out.println("Commensement Date = "+PDFReader.commencementDate);
+	    	}
+	    	else {
+	    	//int index = text.indexOf(PDFAppConfig.Alabama_Format2.commensementDate_Prior);
+	    	//int len = PDFAppConfig.Alabama_Format2.commensementDate_Prior.length();
+	    	//String startdate = text.substring(index+len);
 	    	String commensementRaw = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.commensementDate_Prior)+PDFAppConfig.Alabama_Format2.commensementDate_Prior.length()+1).trim();//,text.indexOf(PDFAppConfig.Alabama_Format2.commensementDate_After)).trim();
 	    	 PDFReader.commencementDate = commensementRaw.substring(0, commensementRaw.indexOf('(')).trim();
 	    	 PDFReader.commencementDate = PDFReader.commencementDate.trim().replaceAll(" +", " ");
 		    System.out.println("Commensement Date = "+PDFReader.commencementDate);//.substring(commensementDate.lastIndexOf(":")+1));
+	    	}
 	    }
 	    catch(Exception e)
 	    {
@@ -177,6 +204,45 @@ public class Alabama_Format2
     	System.out.println("Monthly Rent Tax Amount = "+PDFReader.totalMonthlyRentWithTax);
 		return true;
 	}
+	
+	public static void CheckboxExtractor() {	        
+		try {
+	            // Load the PDF document
+				File file = RunnerClass.getLastModified();
+				FileInputStream fis = new FileInputStream(file);
+	            PdfReader reader = new PdfReader(fis);
 
+	            // Get the AcroFields (interactive form fields) from the PDF
+	            AcroFields form = reader.getAcroFields();
+
+	            // Get the names of all form fields in the PDF
+	            for (String fieldName : form.getFields().keySet()) {
+	            	
+	                // Check if the field is a checkbox
+	                if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_CHECKBOX) {
+	                    // Get the field value (checked or unchecked)
+	                    boolean isChecked = isCheckboxChecked(form, fieldName);
+
+	                    // Print the field name and value
+	                    System.out.println("Field Name: " + fieldName);
+	                    System.out.println("Is Checked: " + isChecked);
+	                }
+	            }
+
+	            // Close the PDF reader
+	            reader.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
+	 private static boolean isCheckboxChecked(AcroFields form, String fieldName) throws IOException {
+	        // Get the field's dictionary
+		 PdfDictionary fieldDict = form.getFieldItem(fieldName).getWidget(0);
+
+	        // Check if the field's appearance dictionary contains "/Yes"
+	        PdfName appearanceState = fieldDict.getAsName(PdfName.AS);
+	        return appearanceState == null && appearanceState.equals(PdfName.OFF);
+	    }
 
 }
