@@ -7,6 +7,7 @@ public class Alabama_Format2
 	public static String commensementDate_After = " (the �Commencement Date�)";
 	
 	public static String expirationDate_Prior = "Premises) on ";
+	public static String expirationDate_Prior_Renewal = "(based on the location of the Premises) on";
 	public static String expirationDate_After = " (the �Expiration Date�).";
 	
 	public static String proratedRentDate_Prior = "prorated rent, on or before";

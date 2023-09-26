@@ -79,10 +79,19 @@ public class Alabama_Format2
 	    
 	    try
 	    {
-	    	String expirationDateRaw  = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.expirationDate_Prior)+PDFAppConfig.Alabama_Format2.expirationDate_Prior.length()).trim();//,text.indexOf(PDFAppConfig.Alabama_Format2.expirationDate_After)).trim();
-	    	PDFReader.expirationDate = expirationDateRaw.substring(0,expirationDateRaw.indexOf('(')).trim();
-	    	PDFReader.expirationDate = PDFReader.expirationDate.trim().replaceAll(" +", " ");
-	    	System.out.println("Expiration Date = "+PDFReader.expirationDate);//.substring(commensementDate.lastIndexOf(":")+1));
+	    	if(text.indexOf(PDFAppConfig.Alabama_Format2.expirationDate_Prior) == -1) {
+	    		String expirationDateRaw  = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.expirationDate_Prior_Renewal)+PDFAppConfig.Alabama_Format2.expirationDate_Prior_Renewal.length()).trim();//,text.indexOf(PDFAppConfig.Alabama_Format2.expirationDate_After)).trim();
+		    	PDFReader.expirationDate = expirationDateRaw.substring(0,expirationDateRaw.indexOf('(')).trim();
+		    	PDFReader.expirationDate = PDFReader.expirationDate.trim().replaceAll(" +", " ");
+		    	System.out.println("Expiration Date = "+PDFReader.expirationDate);//.substring(commensementDate.lastIndexOf(":")+1));
+	    	}
+	    	else {
+	    		String expirationDateRaw  = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.expirationDate_Prior)+PDFAppConfig.Alabama_Format2.expirationDate_Prior.length()).trim();//,text.indexOf(PDFAppConfig.Alabama_Format2.expirationDate_After)).trim();
+		    	PDFReader.expirationDate = expirationDateRaw.substring(0,expirationDateRaw.indexOf('(')).trim();
+		    	PDFReader.expirationDate = PDFReader.expirationDate.trim().replaceAll(" +", " ");
+		    	System.out.println("Expiration Date = "+PDFReader.expirationDate);//.substring(commensementDate.lastIndexOf(":")+1));
+	    	}
+	    	
 	    }
 	    catch(Exception e)
 	    {
