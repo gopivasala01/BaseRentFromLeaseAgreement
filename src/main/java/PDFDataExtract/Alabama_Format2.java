@@ -50,7 +50,7 @@ public class Alabama_Format2
 		*/
 	    text = text.replaceAll(System.lineSeparator(), " ");
 	    text = text.trim().replaceAll(" +", " ");
-	    System.out.println(text);
+	    //System.out.println(text);
 	    System.out.println("------------------------------------------------------------------");
 	    
 	    try

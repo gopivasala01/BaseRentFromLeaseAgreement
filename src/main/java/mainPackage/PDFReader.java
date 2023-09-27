@@ -1137,7 +1137,7 @@ public class PDFReader
 		    	return "Format1";
 		    }
 		    
-		    else if(text.contains(format2Text.toLowerCase()))
+		    else if(text.contains(format2Text.toLowerCase()) || text.contains(PDFFormatDecider.format2.toLowerCase()))
 		    {
 		    	RunnerClass.PDFFormatType = "Format2";
 		    	System.out.println("PDF Format Type = "+RunnerClass.PDFFormatType);

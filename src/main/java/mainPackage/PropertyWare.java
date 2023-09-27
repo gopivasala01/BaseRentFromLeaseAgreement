@@ -98,7 +98,8 @@ public class PropertyWare
 	        String marketName = "HomeRiver Group - "+RunnerClass.company;
 	        Select marketDropdownList = new Select(RunnerClass.driver.findElement(Locators.marketDropdown));
 	        marketDropdownList.selectByVisibleText(marketName);
-	        Thread.sleep(3000);
+	        //Thread.sleep(3000);
+	        RunnerClass.wait = new WebDriverWait(RunnerClass.driver, Duration.ofSeconds(2));
 	        }
 	        String buildingPageURL = AppConfig.buildingPageURL+RunnerClass.leaseEntityID;
 	        RunnerClass.driver.navigate().to(buildingPageURL);

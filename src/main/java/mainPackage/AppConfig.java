@@ -21,7 +21,7 @@ public class AppConfig
 	   
 	   public static String mailSubject = "Base Rent Update for  ";
 	   
-	   public static String[] LeaseAgreementFileNames = {"Full Lease","Full_Lease","Full lease","Full_lease","RT_Full_Lease","RT Full Lease","Renewal Lease","Renewal_Lease","RENEWAL","Renewal_","IAG Lease Renewal","IAG_Lease_Renewal","REVISED_Lease_","Lease_","Leases_","_Lease"};
+	   public static String[] LeaseAgreementFileNames = {"Full Lease","Full_Lease","Full lease","Full_lease","RT_Full_Lease","RT Full Lease","Lease Renewal","Lease_Renewal","Renewal Lease","Renewal_Lease","RENEWAL","Renewal_","IAG Lease Renewal","IAG_Lease_Renewal","REVISED_Lease_","Lease_","Leases_","_Lease"};
 	   
 	   public static String[] LeaseModificationFileNames = {"Lease Modification","Lease_Modification","_MOD","_Mod"};
 	   
@@ -31,7 +31,7 @@ public class AppConfig
 	   
 	  // public static String leaseFetchQuery  = "Select Company, Building,leaseName from Automation.InitialRentsUpdate where Status ='Pending' and Company ='Georgia'";
 	   
-	   public static String pendingLeasesQuery = "Select ID, Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate from Automation.BaseRentFromLeaseAgreements where  Company ='Alabama' ";// and LeaseEntityID= '3745218561' ";
+	   public static String pendingLeasesQuery = "Select ID, Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate from Automation.BaseRentFromLeaseAgreements where  Company ='Alabama' and Automation_Notes in ('Lease not found')" ;//and LeaseEntityID= '4226940987' ";
 	   
 	   public static String failedLeasesQuery = "Select Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate from Automation.BaseRentFromLeaseAgreements where  Company='Alabama' and Status ='Failed'";
 	   
