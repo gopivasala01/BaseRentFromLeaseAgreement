@@ -11,6 +11,8 @@ public class AppConfig
 	   public static String excelFileLocation = "C:\\Users\\gopi\\Documents\\BaseRent Update Files";
 	   public static String downloadFilePath = "C:\\Users\\gopi\\Documents\\BaseRent Update Files";
 	   
+	   public static String pdfImage = "C:\\Users\\gopi\\Documents\\Base Rent\\";
+	   
 	   public static String buildingPageURL = "https://app.propertyware.com/pw/leases/lease_detail.do?entityID=";
 	   //Mail credentials
 	   public static String fromEmail = "bireports@beetlerim.com";
@@ -31,7 +33,7 @@ public class AppConfig
 	   
 	  // public static String leaseFetchQuery  = "Select Company, Building,leaseName from Automation.InitialRentsUpdate where Status ='Pending' and Company ='Georgia'";
 	   
-	   public static String pendingLeasesQuery = "Select ID, Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate from Automation.BaseRentFromLeaseAgreements where  Company ='Alabama' and Automation_Notes in ('Lease not found')" ;//and LeaseEntityID= '4226940987' ";
+	   public static String pendingLeasesQuery = "Select ID, Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate,Status from Automation.BaseRentFromLeaseAgreements where  Company ='Alabama' ";//and LeaseEntityID= '3605594124' ";//and Automation_Notes in (',Unable to download Lease Agreement') "; //
 	   
 	   public static String failedLeasesQuery = "Select Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate from Automation.BaseRentFromLeaseAgreements where  Company='Alabama' and Status ='Failed'";
 	   

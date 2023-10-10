@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import PDFDataExtract.Alabama_Format2;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class PropertyWare 
@@ -133,11 +134,11 @@ public class PropertyWare
 	        {
 	        	
 	        }
-	        boolean leasedatecheck = false;
+	        //boolean leasedatecheck = false;
 	        try {
 	        	RunnerClass.leaseStartDatefromPW = RunnerClass.driver.findElement(Locators.leaseStartDate).getText().trim();
 	        	RunnerClass.leaseEndDatefromPW = RunnerClass.driver.findElement(Locators.leaseEndDate).getText().trim();
-	        	String todaydate = CommonMethods.getCurrentDate();
+	        	/*String todaydate = CommonMethods.getCurrentDate();
 	        	if(CommonMethods.compareBeforeDates(RunnerClass.leaseStartDatefromPW, todaydate) && CommonMethods.compareAfterDates(RunnerClass.leaseEndDatefromPW, todaydate)) {
 	        		leasedatecheck = true;
 	        		System.out.println("This is the current Lease");
@@ -146,7 +147,7 @@ public class PropertyWare
 	        		System.out.println("This Lease is not a current Lease");
 	        		RunnerClass.failedReason = "Lease dates are not within the range of current date";
 	        		return false;
-	        	}
+	        	}*/
 	        }
 	        catch(Exception e){
 	        	
@@ -309,7 +310,7 @@ public class PropertyWare
 				{
 				
 				 if((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&!documents.get(i).getText().contains("Sign_Renewal_")&&
-						 !documents.get(i).getText().contains("short_Renewal_")&&!documents.get(i).getText().contains("Lease_Modification")
+						 !documents.get(i).getText().contains("Short_Renewal_")&&!documents.get(i).getText().contains("Short Renewal")&&!documents.get(i).getText().contains("Lease_Modification")
 						 &&!documents.get(i).getText().contains("Lease Modification")&&!documents.get(i).getText().contains("Termination")
 						 &&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
 				 {
@@ -321,13 +322,99 @@ public class PropertyWare
 					wait.until( x -> file.exists());
 					Thread.sleep(5000);
 					PDFReader.readPDFPerMarket(RunnerClass.company);
-					RunnerClass.leaseStartDateFromDocument = CommonMethods.convertDate(PDFReader.commencementDate);
-					RunnerClass.leaseEndDateFromDocument = CommonMethods.convertDate(PDFReader.expirationDate);
-					if(RunnerClass.leaseStartDatefromPW.equals(RunnerClass.leaseStartDateFromDocument)&& RunnerClass.leaseEndDatefromPW.equals(RunnerClass.leaseEndDateFromDocument)) {
-						RunnerClass.baseRent = PDFReader.monthlyRent;
-						checkLeaseAgreementAvailable = true;
-						break;
+					try {
+						
+						RunnerClass.leaseStartDateFromDocument = CommonMethods.convertDate(PDFReader.commencementDate);
+						RunnerClass.leaseEndDateFromDocument = CommonMethods.convertDate(PDFReader.expirationDate);
+						//RunnerClass.leaseStartDateFromDocument = "";
+						//RunnerClass.leaseEndDateFromDocument = "";
 					}
+					catch(Exception e) {
+						RunnerClass.leaseStartDateFromDocument = "";
+						RunnerClass.leaseEndDateFromDocument = "";
+					}
+					try {
+						if(RunnerClass.leaseStartDateFromDocument.isEmpty() && RunnerClass.leaseEndDateFromDocument.isEmpty()) {
+							pdfTesseractExtraction.pdfScreenShot(RunnerClass.company);
+							RunnerClass.leaseStartDateFromDocument = CommonMethods.convertDate(pdfTesseractExtraction.startDate);
+							RunnerClass.leaseEndDateFromDocument = CommonMethods.convertDate(pdfTesseractExtraction.endDate);
+							if(pdfTesseractExtraction.monthlyRentTaxFlag == true) {
+								PDFReader.totalMonthlyRentWithTax = pdfTesseractExtraction.totalMonthlyRentWithTax;
+							}
+							else {
+								PDFReader.monthlyRent = pdfTesseractExtraction.baseRent;
+							}
+							
+							
+						}
+					}
+					catch(Exception e) {
+						RunnerClass.leaseStartDateFromDocument = "";
+						RunnerClass.leaseEndDateFromDocument = "";
+						//RunnerClass.failedReason =  RunnerClass.failedReason+","+ "Lease Agreement Read Error";
+					}
+					
+					
+						
+					
+					/*
+					 * if(CommonMethods.compareBeforeDates(RunnerClass.leaseEndDateFromDocument,
+					 * RunnerClass.leaseStartDateFromDocument)) { String temp; temp =
+					 * RunnerClass.leaseEndDateFromDocument; RunnerClass.leaseEndDateFromDocument =
+					 * RunnerClass.leaseStartDateFromDocument;
+					 * RunnerClass.leaseStartDateFromDocument = temp;
+					 * 
+					 * 
+					 * }
+					 */
+					try {
+						if(RunnerClass.Status.equals("Terminated") || RunnerClass.Status.equals("Dead Application") || RunnerClass.Status.equals("Eviction") || RunnerClass.Status.contains("Draft - HOLD") || RunnerClass.Status.equals("Active - Notice Given")) {
+							if(RunnerClass.leaseStartDateFromDocument.equals(RunnerClass.leaseStartDatefromPW)&& RunnerClass.leaseEndDateFromDocument.equals(RunnerClass.leaseEndDatefromPW)) {
+								if(PDFReader.monthlyRentTaxFlag == true) {
+									RunnerClass.baseRent = PDFReader.totalMonthlyRentWithTax;
+									RunnerClass.failedReason = "";
+									checkLeaseAgreementAvailable = true;
+									break;
+								}
+								else {
+									RunnerClass.baseRent = PDFReader.monthlyRent;
+									RunnerClass.failedReason = "";
+									checkLeaseAgreementAvailable = true;
+									break;
+								}
+								
+							}
+						}
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+						System.out.println("Error in checking Status of Lease");
+					}
+					try {
+						if(CommonMethods.compareBeforeDates(RunnerClass.leaseStartDateFromDocument,CommonMethods.getCurrentDate())&& CommonMethods.compareAfterDates(RunnerClass.leaseEndDateFromDocument,CommonMethods.getCurrentDate())) {
+							if(PDFReader.monthlyRentTaxFlag == true) {
+								RunnerClass.baseRent = PDFReader.totalMonthlyRentWithTax;
+								RunnerClass.failedReason = "";
+								checkLeaseAgreementAvailable = true;
+								break;
+							}
+							else {
+								RunnerClass.baseRent = PDFReader.monthlyRent;
+								RunnerClass.failedReason = "";
+								checkLeaseAgreementAvailable = true;
+								break;
+							}
+							
+						}
+						else {
+							break;
+						}
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+						System.out.println("Error in checking Active Lease");
+					}
+					
 					 
 					
 				 }
@@ -341,17 +428,17 @@ public class PropertyWare
 			if(checkLeaseAgreementAvailable==false)
 			{
 				System.out.println("Lease Agreement not found");
-				RunnerClass.failedReason =  RunnerClass.failedReason+","+ "Lease Agreement not found";
+				RunnerClass.failedReason = "Lease Agreement not found";
 				return false;
 			}
 		}
 		
 		catch(Exception e) {
 			System.out.println("Unable to download Lease Agreement");
-		    RunnerClass.failedReason =  RunnerClass.failedReason+","+"Unable to download Lease Agreement";
+		    RunnerClass.failedReason = "Unable to download Lease Agreement";
 			return false;
 		}
-		return true;
+ 		return true;
 	}
 	
 	

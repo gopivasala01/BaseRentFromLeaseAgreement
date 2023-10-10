@@ -27,6 +27,7 @@ public class RunnerClass
 	public static String leaseEntityID;
 	public static String dateDifference;
 	public static String moveInDate;
+	public static String Status;
 	
 	public static ArrayList<String> autoChargeCodes;
 	public static ArrayList<String> autoChargeAmounts;
@@ -43,7 +44,7 @@ public class RunnerClass
 	public static String leaseStartDatefromPW ;
 	public static String leaseEndDatefromPW ;
 	public static String leaseStartDateFromDocument;
-	public static String leaseEndDateFromDocument;
+	public static String leaseEndDateFromDocument; 
 	
 	public static void main(String args[])
 	{
@@ -66,6 +67,7 @@ public class RunnerClass
 					leaseEntityID = pendingLeases[i][2];
 					dateDifference = pendingLeases[i][3];
 					moveInDate = pendingLeases[i][4].split(" ")[0].trim();
+					Status = pendingLeases[i][5];
 					autoChargeCodes = new ArrayList();
 					autoChargeAmounts = new ArrayList();
 					autoChargeStartDate = new ArrayList();
@@ -98,7 +100,7 @@ public class RunnerClass
 					
 					if(PropertyWare.downloadLeaseAgreementAndCompareStartDate()==true)
 					{
-					//PDFDataExtract.Alabama_Format2.CheckboxExtractor();
+					//PDFDataExtract.Alabama_Format2.pdfScreenShot();
 					//baseRent = PDFReader.monthlyRent;
 					String query = "Update Automation.BaseRentFromLeaseAgreements set BaseRentFromAutoCharges='"+baseRent+"',Automation_Status='Completed',Automation_Notes='"+failedReason+"',Automation_CompletionDate =getdate() where ID = '"+ID+"'";
 							
@@ -149,7 +151,7 @@ public class RunnerClass
 					catch(Exception e) {}
 					//break;
 				}
-	}
+   	}
 	
 	public static File getLastModified() throws Exception
 	{

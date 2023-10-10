@@ -29,7 +29,7 @@ public class DataBase
 		            	rs.beforeFirst();
 		            }
 		            System.out.println("No of Rows = "+rows);
-		            RunnerClass.pendingLeases = new String[rows][5];
+		            RunnerClass.pendingLeases = new String[rows][6];
 		           int  i=0;
 		            while(rs.next())
 		            {
@@ -50,6 +50,7 @@ public class DataBase
 		                else {
 		                	moveInDate = "";
 		                }
+		                String 	Status =  rs.getObject(6).toString();
 		    			//ID
 		                try 
 		                {
@@ -94,6 +95,15 @@ public class DataBase
 		                catch(Exception e)
 		                {
 		                	RunnerClass.pendingLeases[i][4] = "";
+		                }
+		                //Status
+		                try 
+		                {
+		    				RunnerClass.pendingLeases[i][5] = Status;
+		                }
+		                catch(Exception e)
+		                {
+		                	RunnerClass.pendingLeases[i][5] = "";
 		                }
 		              
 		    				i++;

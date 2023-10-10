@@ -1,5 +1,7 @@
 package PDFDataExtract;
 
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -7,8 +9,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
 
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfDocument;
@@ -28,20 +35,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import mainPackage.AppConfig;
 import mainPackage.PDFReader;
 import mainPackage.RunnerClass;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
 
 public class Alabama_Format2 
 {
 	public static String text ="";
+	
 	public static  boolean  format2() throws Exception
 	//public static void main(String[] args) throws Exception 
 	{
 		//File file = new File("C:\\SantoshMurthyP\\Lease Audit Automation\\Lease_423_424_2426_Folsom_St_AL_McCay_Gilmo (2).pdf");
 		File file = RunnerClass.getLastModified();
 		FileInputStream fis = new FileInputStream(file);
-		PDDocument document = PDDocument.load(fis);
+		
+		PDDocument	document = PDDocument.load(fis);
 		//PdfReader document = new PdfReader(fis);
+		
 	    text = new PDFTextStripper().getText(document);
 		/*for(int i = 1; i <= document.getNumberOfPages(); i++) {
 			String data =PdfTextExtractor.getTextFromPage(document,i);
@@ -70,6 +85,18 @@ public class Alabama_Format2
 	    	 PDFReader.commencementDate = PDFReader.commencementDate.trim().replaceAll(" +", " ");
 		    System.out.println("Commensement Date = "+PDFReader.commencementDate);//.substring(commensementDate.lastIndexOf(":")+1));
 	    	}
+//	    	if(PDFReader.commencementDate.contains("______________")) {
+//				
+//				  String month = text.substring(text.indexOf("DocuSign Envelope ID: ")+("DocuSign Envelope ID: ").length()).trim().split(" ")[4]; 
+//				  String date =text.substring(text.indexOf("DocuSign Envelope ID: ")+ ("DocuSign Envelope ID: ").length()).trim().split(" ")[5]; 
+//				  String year =text.substring(text.indexOf("DocuSign Envelope ID: ")+ ("DocuSign Envelope ID: ").length()).trim().split(" ")[6];
+//				  PDFReader.commencementDate = month+" "+date+" "+year;
+//				  System.out.println("Commensement Date = "+PDFReader.commencementDate);
+//				 
+//	    	}
+	    	
+	    	
+	    	
 	    }
 	    catch(Exception e)
 	    {
@@ -91,6 +118,17 @@ public class Alabama_Format2
 		    	PDFReader.expirationDate = PDFReader.expirationDate.trim().replaceAll(" +", " ");
 		    	System.out.println("Expiration Date = "+PDFReader.expirationDate);//.substring(commensementDate.lastIndexOf(":")+1));
 	    	}
+//	    	if(PDFReader.expirationDate.contains("______")) {
+//	    		
+//				
+//				 String month = text.substring(text.indexOf("DocuSign Envelope ID: ")+("DocuSign Envelope ID: ").length()).trim().split(" ")[1]; 
+//				 String date =text.substring(text.indexOf("DocuSign Envelope ID: ")+("DocuSign Envelope ID: ").length()).trim().split(" ")[2]; 
+//				 String year =text.substring(text.indexOf("DocuSign Envelope ID: ")+("DocuSign Envelope ID: ").length()).trim().split(" ")[3];
+//				 PDFReader.expirationDate = month+" "+date+" "+year;
+//				 System.out.println("Expiration Date = "+PDFReader.expirationDate);
+//				 
+//	    	}
+	    	
 	    	
 	    }
 	    catch(Exception e)
@@ -177,6 +215,13 @@ public class Alabama_Format2
 		    		 }
 	    		 }
 	    	}
+//	    	if(PDFReader.monthlyRent.contains("____")) {
+//	    	
+//				
+//				  String rent =text.substring(text.indexOf(". $")+(". $").length()).trim().split(" ")[0].replace(",", ""); 
+//				  PDFReader.monthlyRent = rent;
+//				 
+//	    	}
 	    }
 	    catch(Exception e)
 	    {
@@ -188,8 +233,14 @@ public class Alabama_Format2
 	    //Monthly Rent Tax Check
 	    try
 	    {
-	    	PDFReader.monthlyRentTaxAmount = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.monthlyRentTaxAmount)+PDFAppConfig.Alabama_Format2.monthlyRentTaxAmount.length()).split(" ")[0].trim();
-	    	if(PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("0.00")||PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("N/A")||PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("n/a")||PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("na")||PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase(""))
+	    	if(text.indexOf(PDFAppConfig.Alabama_Format2.monthlyRentTaxAmount) == -1) {
+	    		PDFReader.monthlyRentTaxAmount = "";
+	    	}
+	    	else {
+	    		PDFReader.monthlyRentTaxAmount = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.monthlyRentTaxAmount)+PDFAppConfig.Alabama_Format2.monthlyRentTaxAmount.length()).split(" ")[0].trim();
+	    	}
+	    	
+	    	if(PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("0.00")||PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("N/A")||PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("n/a")||PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("na")||PDFReader.monthlyRentTaxAmount.trim().equalsIgnoreCase("")||PDFReader.monthlyRentTaxAmount.trim().contains("_"))
 	    	{
 	    		PDFReader.monthlyRentTaxFlag = false;
 	    	}
@@ -253,5 +304,9 @@ public class Alabama_Format2
 	        PdfName appearanceState = fieldDict.getAsName(PdfName.AS);
 	        return appearanceState == null && appearanceState.equals(PdfName.OFF);
 	    }
+	 
+	 
+	 
+	
 
 }
