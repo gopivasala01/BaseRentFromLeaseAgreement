@@ -367,8 +367,9 @@ public class PropertyWare
 					 * 
 					 * }
 					 */
-					try {
-						if(RunnerClass.Status.equals("Terminated") || RunnerClass.Status.equals("Dead Application") || RunnerClass.Status.equals("Eviction") || RunnerClass.Status.contains("Draft - HOLD") || RunnerClass.Status.equals("Active - Notice Given")) {
+					if(RunnerClass.Status.equals("Terminated") || RunnerClass.Status.equals("Dead Application") || RunnerClass.Status.equals("Eviction") || RunnerClass.Status.contains("Draft - HOLD")) {
+							try {
+								
 							if(RunnerClass.leaseStartDateFromDocument.equals(RunnerClass.leaseStartDatefromPW)&& RunnerClass.leaseEndDateFromDocument.equals(RunnerClass.leaseEndDatefromPW)) {
 								if(PDFReader.monthlyRentTaxFlag == true) {
 									RunnerClass.baseRent = PDFReader.totalMonthlyRentWithTax;
@@ -385,45 +386,42 @@ public class PropertyWare
 								
 							}
 						}
-					}
-					catch(Exception e) {
-						e.printStackTrace();
-						System.out.println("Error in checking Status of Lease");
-					}
-					try {
-						if(CommonMethods.compareBeforeDates(RunnerClass.leaseStartDateFromDocument,CommonMethods.getCurrentDate())&& CommonMethods.compareAfterDates(RunnerClass.leaseEndDateFromDocument,CommonMethods.getCurrentDate())) {
-							if(PDFReader.monthlyRentTaxFlag == true) {
-								RunnerClass.baseRent = PDFReader.totalMonthlyRentWithTax;
-								RunnerClass.failedReason = "";
-								checkLeaseAgreementAvailable = true;
-								break;
+							catch(Exception e) {
+								e.printStackTrace();
+								System.out.println("Error in checking Status of Lease");
 							}
-							else {
-								RunnerClass.baseRent = PDFReader.monthlyRent;
-								RunnerClass.failedReason = "";
-								checkLeaseAgreementAvailable = true;
-								break;
+						}
+						else {
+							try {
+								if(CommonMethods.compareBeforeDates(RunnerClass.leaseStartDateFromDocument,CommonMethods.getCurrentDate())&& CommonMethods.compareAfterDates(RunnerClass.leaseEndDateFromDocument,CommonMethods.getCurrentDate())) {
+									if(PDFReader.monthlyRentTaxFlag == true) {
+										RunnerClass.baseRent = PDFReader.totalMonthlyRentWithTax;
+										RunnerClass.failedReason = "";
+										checkLeaseAgreementAvailable = true;
+										break;
+									}
+									else {
+										RunnerClass.baseRent = PDFReader.monthlyRent;
+										RunnerClass.failedReason = "";
+										checkLeaseAgreementAvailable = true;
+										break;
+									}
+									
+								}
+							}
+							catch(Exception e) {
+								e.printStackTrace();
+								System.out.println("Error in getting base rent from Lease");
 							}
 							
 						}
-						else {
-							break;
-						}
 					}
-					catch(Exception e) {
-						e.printStackTrace();
-						System.out.println("Error in checking Active Lease");
-					}
-					
-					 
 					
 				 }
 				
-				 }
 				if(checkLeaseAgreementAvailable == true) {
 					break;
 				}
-				
 			}
 			if(checkLeaseAgreementAvailable==false)
 			{
