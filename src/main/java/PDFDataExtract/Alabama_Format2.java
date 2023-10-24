@@ -260,52 +260,12 @@ public class Alabama_Format2
 	    	PDFReader.monthlyRentTaxAmount = "";
 	    }
 	    System.out.println("Monthly Rent Tax Amount = "+PDFReader.monthlyRentTaxAmount);
-    	System.out.println("Monthly Rent Tax Amount = "+PDFReader.monthlyRentTaxFlag);
-    	System.out.println("Monthly Rent Tax Amount = "+PDFReader.totalMonthlyRentWithTax);
+    	System.out.println("Monthly Rent Tax Flag = "+PDFReader.monthlyRentTaxFlag);
+    	System.out.println("Total Monthly Rent with Tax Amount = "+PDFReader.totalMonthlyRentWithTax);
 		return true;
 	}
 	
-	public static void CheckboxExtractor() {	        
-		try {
-	            // Load the PDF document
-				File file = RunnerClass.getLastModified();
-				FileInputStream fis = new FileInputStream(file);
-	            PdfReader reader = new PdfReader(fis);
-
-	            // Get the AcroFields (interactive form fields) from the PDF
-	            AcroFields form = reader.getAcroFields();
-
-	            // Get the names of all form fields in the PDF
-	            for (String fieldName : form.getFields().keySet()) {
-	            	
-	                // Check if the field is a checkbox
-	                if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_CHECKBOX) {
-	                    // Get the field value (checked or unchecked)
-	                    boolean isChecked = isCheckboxChecked(form, fieldName);
-
-	                    // Print the field name and value
-	                    System.out.println("Field Name: " + fieldName);
-	                    System.out.println("Is Checked: " + isChecked);
-	                }
-	            }
-
-	            // Close the PDF reader
-	            reader.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
 	
-	 private static boolean isCheckboxChecked(AcroFields form, String fieldName) throws IOException {
-	        // Get the field's dictionary
-		 PdfDictionary fieldDict = form.getFieldItem(fieldName).getWidget(0);
-
-	        // Check if the field's appearance dictionary contains "/Yes"
-	        PdfName appearanceState = fieldDict.getAsName(PdfName.AS);
-	        return appearanceState == null && appearanceState.equals(PdfName.OFF);
-	    }
-	 
-	 
 	 
 	
 
