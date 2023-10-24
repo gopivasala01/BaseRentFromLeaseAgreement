@@ -22,7 +22,7 @@ public class Tennessee_Format2 {
 	    text = new PDFTextStripper().getText(document);
 	    text = text.replaceAll(System.lineSeparator(), " ");
 	    text = text.trim().replaceAll(" +", " ");
-	    System.out.println(text);
+	    //System.out.println(text);
 	    System.out.println("------------------------------------------------------------------");
 	    
 	    try

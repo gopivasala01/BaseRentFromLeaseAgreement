@@ -99,8 +99,8 @@ public class pdfTesseractExtraction {
 					    	monthlyRentTaxAmount = "";
 					    }
 					    System.out.println("Monthly Rent Tax Amount from OCR = "+monthlyRentTaxAmount);
-				    	System.out.println("Monthly Rent Tax Amount from OCR= "+monthlyRentTaxFlag);
-				    	System.out.println("Monthly Rent Tax Amount from OCR= "+totalMonthlyRentWithTax);
+				    	System.out.println("Monthly Rent Tax Flag from OCR= "+monthlyRentTaxFlag);
+				    	System.out.println("Total Monthly Rent with Tax Amount from OCR= "+totalMonthlyRentWithTax);
 					   break;
 				   }
 						
