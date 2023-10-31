@@ -151,6 +151,7 @@ public class RunnerClass
 					catch(Exception e) {}
 					//break;
 				}
+				RunnerClass.driver.quit();
    	}
 	
 	public static File getLastModified() throws Exception

@@ -1143,7 +1143,11 @@ public class PDFReader
 		    	System.out.println("PDF Format Type = "+RunnerClass.PDFFormatType);
 		    	return "Format2";
 		    }
-		    else return "Error";
+		    else {
+		    	RunnerClass.PDFFormatType = "Error";
+		    	return "Error";
+		    }
+		    	
 			}
 			catch(Exception e)
 			{

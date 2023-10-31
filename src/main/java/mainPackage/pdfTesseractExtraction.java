@@ -104,7 +104,7 @@ public class pdfTesseractExtraction {
 					   break;
 				   }
 						
-				   }
+				   }    
 				 catch(Exception e) {
 					
 				    System.out.println("PDF Read Error");

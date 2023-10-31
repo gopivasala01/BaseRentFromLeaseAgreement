@@ -309,19 +309,34 @@ public class PropertyWare
 				for(int j=0;j<AppConfig.LeaseAgreementFileNames.length;j++)
 				{
 				
-				 if((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&!documents.get(i).getText().contains("Sign_Renewal_")&&
+				 if(((documents.get(i).getText().startsWith(AppConfig.LeaseAgreementFileNames[j])|| documents.get(i).getText().contains(AppConfig.LeaseAgreementFileNames[j]))&&documents.get(i).getText().endsWith(".pdf"))&&!documents.get(i).getText().contains("Sign_Renewal_")&&
 						 !documents.get(i).getText().contains("Short_Renewal_")&&!documents.get(i).getText().contains("Short Renewal")&&!documents.get(i).getText().contains("Lease_Modification")
 						 &&!documents.get(i).getText().contains("Lease Modification")&&!documents.get(i).getText().contains("Termination")
 						 &&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
 				 {
 				 	documents.get(i).click();
 				 	Thread.sleep(10000);
-					File file = RunnerClass.getLastModified();
+				 	File file;
+				 	while (true) {
+				 	    file = RunnerClass.getLastModified();
+				 	    if (file.getName().endsWith(".crdownload")) {
+				 	        try {
+				 	            Thread.sleep(5000);
+				 	        } catch (InterruptedException e) {
+				 	            // Handle the InterruptedException if needed
+				 	        }
+				 	    } else {
+				 	        // Break the loop if the file name does not end with ".crdownload"
+				 	        break;
+				 	    }
+				 	}
 					
-					FluentWait<WebDriver> wait = new FluentWait<WebDriver>(RunnerClass.driver).withTimeout(Duration.ofSeconds(25)).pollingEvery(Duration.ofMillis(100));
-					wait.until( x -> file.exists());
-					Thread.sleep(5000);
-					PDFReader.readPDFPerMarket(RunnerClass.company);
+//					FluentWait<WebDriver> wait = new FluentWait<WebDriver>(RunnerClass.driver).withTimeout(Duration.ofSeconds(25)).pollingEvery(Duration.ofMillis(100));
+//					wait.until( x -> file.exists());
+//					Thread.sleep(5000);
+					PDFReader.readPDFPerMarket(RunnerClass.company); //3884908560
+					if(RunnerClass.PDFFormatType != "Error") {
+						
 					try {
 						
 						RunnerClass.leaseStartDateFromDocument = CommonMethods.convertDate(PDFReader.commencementDate);
@@ -389,6 +404,7 @@ public class PropertyWare
 							catch(Exception e) {
 								e.printStackTrace();
 								System.out.println("Error in checking Status of Lease");
+								
 							}
 						}
 						else {
@@ -416,7 +432,13 @@ public class PropertyWare
 							
 						}
 					}
-					
+					else {
+						System.out.println("Unable to read PDF");
+						//RunnerClass.failedReason = "Issue in reading PDF";
+						break;
+					}
+				
+				 }
 				 }
 				
 				if(checkLeaseAgreementAvailable == true) {
@@ -430,6 +452,7 @@ public class PropertyWare
 				return false;
 			}
 		}
+			
 		
 		catch(Exception e) {
 			System.out.println("Unable to download Lease Agreement");
