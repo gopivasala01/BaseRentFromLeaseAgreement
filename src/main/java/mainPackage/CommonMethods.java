@@ -103,42 +103,51 @@ public class CommonMethods
 			}
 			catch(Exception e2)
 			{
-			  if(dateRaw.trim().replaceAll(" +", " ").split(" ")[1].contains("st")||dateRaw.trim().replaceAll(" +", " ").split(" ")[1].contains("nd")||dateRaw.trim().replaceAll(" +", " ").split(" ")[1].contains("th"))
-				  dateRaw = dateRaw.trim().replaceAll(" +", " ").replace("st", "").replace("nd", "").replace("th", "");
-			  try
-				{
-				SimpleDateFormat format1 = new SimpleDateFormat("MMMM dd yyyy");
-			    SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
-			    Date date = format1.parse(dateRaw.trim().replaceAll(" +", " "));
-			    System.out.println(format2.format(date));
-				return format2.format(date).toString();
+				try {
+					 SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
+					 Date date = format2.parse(dateRaw.trim().replaceAll(" +", " "));
+					 System.out.println(format2.format(date));
+					 return format2.format(date).toString();
 				}
-				catch(Exception e3)
-				{
-					try
-					{
-					SimpleDateFormat format1 = new SimpleDateFormat("MMMM dd,yyyy");
-				    SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
-				    Date date = format1.parse(dateRaw.trim().replaceAll(" +", " "));
-				    System.out.println(format2.format(date));
-					return format2.format(date).toString();
-					}
-					catch(Exception e4)
-					{
-						try
+				catch(Exception e3) {
+					 if(dateRaw.trim().replaceAll(" +", " ").split(" ")[1].contains("st")||dateRaw.trim().replaceAll(" +", " ").split(" ")[1].contains("nd")||dateRaw.trim().replaceAll(" +", " ").split(" ")[1].contains("th"))
+						  dateRaw = dateRaw.trim().replaceAll(" +", " ").replace("st", "").replace("nd", "").replace("th", "");
+					  try
 						{
-						SimpleDateFormat format1 = new SimpleDateFormat("MMMM dd.yyyy");
+						SimpleDateFormat format1 = new SimpleDateFormat("MMMM dd yyyy");
 					    SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
 					    Date date = format1.parse(dateRaw.trim().replaceAll(" +", " "));
 					    System.out.println(format2.format(date));
 						return format2.format(date).toString();
 						}
-						catch(Exception e5)
+						catch(Exception e4)
 						{
-					return "";
+							try
+							{
+							SimpleDateFormat format1 = new SimpleDateFormat("MMMM dd,yyyy");
+						    SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
+						    Date date = format1.parse(dateRaw.trim().replaceAll(" +", " "));
+						    System.out.println(format2.format(date));
+							return format2.format(date).toString();
+							}
+							catch(Exception e5)
+							{
+								try
+								{
+								SimpleDateFormat format1 = new SimpleDateFormat("MMMM dd.yyyy");
+							    SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
+							    Date date = format1.parse(dateRaw.trim().replaceAll(" +", " "));
+							    System.out.println(format2.format(date));
+								return format2.format(date).toString();
+								}
+								catch(Exception e6)
+								{
+							return "";
+							}
+						}
 					}
 				}
-			}
+			 
 		}
 	}
 	} 

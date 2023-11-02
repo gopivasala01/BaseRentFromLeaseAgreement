@@ -23,7 +23,7 @@ public class AppConfig
 	   
 	   public static String mailSubject = "Base Rent Update for  ";
 	   
-	   public static String[] LeaseAgreementFileNames = {"Full Lease","Full_Lease","Full lease","Full_lease","RT_Full_Lease","RT Full Lease","Lease Renewal","Lease_Renewal","Renewal Lease","Renewal_Lease","RENEWAL","Renewal_","IAG Lease Renewal","IAG_Lease_Renewal","REVISED_Lease_","Lease_","Leases_","_Lease"};
+	   public static String[] LeaseAgreementFileNames = {"Full Lease","Full_Lease","Full lease","Full_lease","RT_Full_Lease","RT Full Lease","Lease Renewal","Lease_Renewal","Renewal Lease","Renewal_Lease","RENEWAL","Renewal_","IAG Lease Renewal","IAG_Lease_Renewal","REVISED_Lease_","Lease_","Leases_","_Lease",};
 	   
 	   public static String[] LeaseModificationFileNames = {"Lease Modification","Lease_Modification","_MOD","_Mod"};
 	   
@@ -33,7 +33,7 @@ public class AppConfig
 	   
 	  // public static String leaseFetchQuery  = "Select Company, Building,leaseName from Automation.InitialRentsUpdate where Status ='Pending' and Company ='Georgia'";
 	   
-	   public static String pendingLeasesQuery = "Select ID, Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate,Status from Automation.BaseRentFromLeaseAgreements where  Company ='California' and Automation_Status = 'pending' ";//and Automation_Notes in (',Unable to download Lease Agreement') "; //
+	   public static String pendingLeasesQuery = "Select ID, Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate,Status from Automation.BaseRentFromLeaseAgreements where  Company ='California' and Automation_Status = 'failed' and Status in ('Active','Active - Notice Given')  ";//and Automation_Notes in (',Unable to download Lease Agreement') "; //
 	   
 	   public static String failedLeasesQuery = "Select Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate from Automation.BaseRentFromLeaseAgreements where  Company='Alabama' and Status ='Failed'";
 	   

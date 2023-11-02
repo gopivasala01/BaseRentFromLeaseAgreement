@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -36,6 +37,7 @@ public class PropertyWare
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
         options.addArguments("--remote-allow-origins=*");
+        options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
         //options.addArguments("--headless");
 		WebDriverManager.chromedriver().clearDriverCache().setup();
         RunnerClass.driver= new ChromeDriver(options);

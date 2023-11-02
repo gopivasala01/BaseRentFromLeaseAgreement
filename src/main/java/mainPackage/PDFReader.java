@@ -184,14 +184,17 @@ public class PDFReader
 					if(PDFDataExtract.California_Format1.format1()==false)
 						return false;
 				}
-				
-				else 
-					if(pdfFormatType_California=="Format2")
+				else if(pdfFormatType_California=="Format2")
 				     {
 					if(PDFDataExtract.California_Format2.format2()==false)
 						return false;
 			        }
-				    else 
+				else if(pdfFormatType_California=="Format3")
+			     {
+				if(PDFDataExtract.California_Format3.format3()==false)
+					return false;
+		        }
+				else 
 				   {
 					RunnerClass.failedReason = RunnerClass.failedReason+","+ "Wrong PDF Format";
 					return false;
@@ -991,6 +994,7 @@ public class PDFReader
 			{
 			String format1Text = "";
 			String format2Text = "";
+			String format3Text = "";
 			switch(company)
 			{
 			
@@ -1002,6 +1006,7 @@ public class PDFReader
 			case "California":
 		        format1Text = PDFAppConfig.PDFFormatDecider.california_Format1;
 		        format2Text = PDFAppConfig.PDFFormatDecider.california_Format2;
+		        format3Text = PDFAppConfig.PDFFormatDecider.california_Format3;
 		        break;
 		        
 			case "California PFW":
@@ -1142,6 +1147,12 @@ public class PDFReader
 		    	RunnerClass.PDFFormatType = "Format2";
 		    	System.out.println("PDF Format Type = "+RunnerClass.PDFFormatType);
 		    	return "Format2";
+		    }
+		    else if(text.contains(format3Text.toLowerCase()) || text.contains(PDFFormatDecider.format3.toLowerCase()))
+		    {
+		    	RunnerClass.PDFFormatType = "Format3";
+		    	System.out.println("PDF Format Type = "+RunnerClass.PDFFormatType);
+		    	return "Format3";
 		    }
 		    else {
 		    	RunnerClass.PDFFormatType = "Error";

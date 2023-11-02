@@ -120,7 +120,7 @@ public class California_Format1
 	    	 PDFReader.monthlyRent = "Error";
 	    	 e.printStackTrace();
 	    }
-	    System.out.println("Monthly Rent "+PDFReader.monthlyRent.trim());
+	    System.out.println("Monthly Rent ="+PDFReader.monthlyRent.trim());
 	    
 	  //Increased Rent Check
 	    try

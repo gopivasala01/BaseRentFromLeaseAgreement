@@ -144,7 +144,7 @@ public class RunnerClass
 					{
 						continue;
 					}
-					try
+					try 
 					{
 						FileUtils.cleanDirectory(new File(AppConfig.downloadFilePath));
 					}

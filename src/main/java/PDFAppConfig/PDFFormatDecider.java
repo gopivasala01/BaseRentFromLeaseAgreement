@@ -6,6 +6,7 @@ public class PDFFormatDecider
 	  public static String format1_2 = "The parties to this Single Family Residence";
 	  
 	  public static String format2 = "PARTIES: Lease is entered into between";
+	  public static String format3 = "THIS AGREEMENT entered into";
 	
 		// Austin
 		public static String austin_Format1 = "The parties to this Lease are the owner of the Property".toLowerCase();
@@ -14,6 +15,7 @@ public class PDFFormatDecider
 		// California
 		public static String california_Format1 = "The parties to this lease are".toLowerCase();
 		public static String california_Format2 = "THIS RESIDENTIAL LEASE AGREEMENT".toLowerCase();
+		public static String california_Format3 = "Owner rents to Resident and the Resident rents from Owner for residential use only".toLowerCase();
 		
 		// California PFW
 		public static String californiaPFW_Format1 = "The parties to this lease are".toLowerCase();
