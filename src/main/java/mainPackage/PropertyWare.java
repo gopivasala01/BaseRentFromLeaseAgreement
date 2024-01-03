@@ -37,7 +37,7 @@ public class PropertyWare
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
         options.addArguments("--remote-allow-origins=*");
-        options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+        options.setPageLoadStrategy(PageLoadStrategy.NORMAL); 
         //options.addArguments("--headless");
 		WebDriverManager.chromedriver().clearDriverCache().setup();
         RunnerClass.driver= new ChromeDriver(options);
@@ -115,7 +115,18 @@ public class PropertyWare
 	        PropertyWare.intermittentPopUp();
 	        if(PropertyWare.checkIfBuildingIsDeactivated()==true)
 	        	return false;
-	        boolean portfolioCheck = false;
+	        String status = RunnerClass.driver.findElement(Locators.status).getText();
+	        if(status.equalsIgnoreCase("ACTIVE") || status.equalsIgnoreCase("Active - Month to Month")){
+	        	System.out.println("Status = " + status);
+	        	//RunnerClass.failedReason = "Lease is Active";
+	        	
+	        }
+	        else {
+	        	System.out.println("Status = " + status);
+	        	RunnerClass.failedReason = "Lease is not Active";
+	        	return false;
+	        }
+	       /* boolean portfolioCheck = false;
 	        try
 	        {
 	        	String portfolioText = RunnerClass.driver.findElement(Locators.portfolioText).getText();
@@ -135,7 +146,7 @@ public class PropertyWare
 	        catch(Exception e)
 	        {
 	        	
-	        }
+	        }*/
 	        //boolean leasedatecheck = false;
 	        try {
 	        	RunnerClass.leaseStartDatefromPW = RunnerClass.driver.findElement(Locators.leaseStartDate).getText().trim();

@@ -27,6 +27,9 @@ public class Locators
     public static By saveEvictionPopUp = By.xpath("//div[@classname='primaryButtons']//input[@value='Save']");
     
     
+    public static By status = By.xpath("//*[@id='infoTable']/tbody/tr[6]/td[2]");
+    
+    
     public static By leaseStartDate = By.xpath("//table[@id='infoTable']//tr[3]//td[1]");
     public static By leaseEndDate = By.xpath("//table[@id='infoTable']//tr[3]//td[2]");
     
