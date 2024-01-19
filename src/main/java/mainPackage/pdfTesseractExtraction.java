@@ -10,6 +10,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
+import PDFDataExtract.ReadingLeaseAggrements;
 import net.sourceforge.tess4j.Tesseract;
 
 public class pdfTesseractExtraction {
@@ -69,7 +70,7 @@ public class pdfTesseractExtraction {
 						   baseRent = baseRentRaw.replace("$", "").replace(",","");
 					   }
 					   catch(Exception e) {
-						   PDFReader.monthlyRent = "Error";
+						   ReadingLeaseAggrements.monthlyRent = "Error";
 						   e.printStackTrace();
 					   }
 					   //|| text.contains(targetText2)
@@ -77,7 +78,7 @@ public class pdfTesseractExtraction {
 					   System.out.println("Base Rent is :"+baseRent);
 					   try
 					    {
-					    	monthlyRentTaxAmount = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.monthlyRentTaxAmount)+PDFAppConfig.Alabama_Format2.monthlyRentTaxAmount.length()).split(" ")[0].trim();
+					    	monthlyRentTaxAmount = text.substring(text.indexOf("plus the additional amount of $")+("plus the additional amount of $").length()).split(" ")[0].trim();
 					    	if(monthlyRentTaxAmount.trim().equalsIgnoreCase("0.00")||monthlyRentTaxAmount.trim().equalsIgnoreCase("N/A")||monthlyRentTaxAmount.trim().equalsIgnoreCase("n/a")||monthlyRentTaxAmount.trim().equalsIgnoreCase("na")||monthlyRentTaxAmount.trim().equalsIgnoreCase(""))
 					    	{
 					    		monthlyRentTaxFlag = false;
@@ -86,10 +87,10 @@ public class pdfTesseractExtraction {
 					    	else
 					    	{
 					    		monthlyRentTaxFlag = true;
-					    		totalMonthlyRentWithTax = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.totalMonthlyRent2)+PDFAppConfig.Alabama_Format2.totalMonthlyRent2.length()).split(" ")[0].trim();
+					    		totalMonthlyRentWithTax = text.substring(text.indexOf("assessed, for a total of $")+("assessed, for a total of $").length()).split(" ")[0].trim();
 					    		if(totalMonthlyRentWithTax.matches(".*[a-zA-Z]+.*"))
 							    {
-					    			totalMonthlyRentWithTax = text.substring(text.indexOf(PDFAppConfig.Alabama_Format2.totalMonthlyRent)+PDFAppConfig.Alabama_Format2.totalMonthlyRent.length()).split(" ")[0].trim();
+					    			totalMonthlyRentWithTax = text.substring(text.indexOf("for a total monthly Rent of $")+("for a total monthly Rent of $").length()).split(" ")[0].trim();
 							    }
 					    	}
 					    }

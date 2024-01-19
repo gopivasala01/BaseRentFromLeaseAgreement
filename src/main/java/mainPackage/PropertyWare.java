@@ -19,7 +19,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import PDFDataExtract.Alabama_Format2;
+import PDFDataExtract.ReadingLeaseAggrements;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class PropertyWare 
@@ -328,32 +328,13 @@ public class PropertyWare
 						 &&!documents.get(i).getText().contains("_Mod")&&!documents.get(i).getText().contains("_MOD"))//&&documents.get(i).getText().contains(AppConfig.getCompanyCode(RunnerClass.company)))
 				 {
 				 	documents.get(i).click();
-				 	Thread.sleep(10000);
-				 	File file;
-				 	while (true) {
-				 	    file = RunnerClass.getLastModified();
-				 	    if (file.getName().endsWith(".crdownload")) {
-				 	        try {
-				 	            Thread.sleep(5000);
-				 	        } catch (InterruptedException e) {
-				 	            // Handle the InterruptedException if needed
-				 	        }
-				 	    } else {
-				 	        // Break the loop if the file name does not end with ".crdownload"
-				 	        break;
-				 	    }
-				 	}
+				 	ReadingLeaseAggrements.getDataFromLeaseAgreements();
 					
-//					FluentWait<WebDriver> wait = new FluentWait<WebDriver>(RunnerClass.driver).withTimeout(Duration.ofSeconds(25)).pollingEvery(Duration.ofMillis(100));
-//					wait.until( x -> file.exists());
-//					Thread.sleep(5000);
-					PDFReader.readPDFPerMarket(RunnerClass.company); //3884908560
-					if(RunnerClass.PDFFormatType != "Error") {
 						
 					try {
 						
-						RunnerClass.leaseStartDateFromDocument = CommonMethods.convertDate(PDFReader.commencementDate);
-						RunnerClass.leaseEndDateFromDocument = CommonMethods.convertDate(PDFReader.expirationDate);
+						RunnerClass.leaseStartDateFromDocument = CommonMethods.convertDate(ReadingLeaseAggrements.commencementDate);
+						RunnerClass.leaseEndDateFromDocument = CommonMethods.convertDate(ReadingLeaseAggrements.expirationDate);
 						//RunnerClass.leaseStartDateFromDocument = "";
 						//RunnerClass.leaseEndDateFromDocument = "";
 					}
@@ -367,10 +348,10 @@ public class PropertyWare
 							RunnerClass.leaseStartDateFromDocument = CommonMethods.convertDate(pdfTesseractExtraction.startDate);
 							RunnerClass.leaseEndDateFromDocument = CommonMethods.convertDate(pdfTesseractExtraction.endDate);
 							if(pdfTesseractExtraction.monthlyRentTaxFlag == true) {
-								PDFReader.totalMonthlyRentWithTax = pdfTesseractExtraction.totalMonthlyRentWithTax;
+								ReadingLeaseAggrements.totalMonthlyRentWithTax = pdfTesseractExtraction.totalMonthlyRentWithTax;
 							}
 							else {
-								PDFReader.monthlyRent = pdfTesseractExtraction.baseRent;
+								ReadingLeaseAggrements.monthlyRent = pdfTesseractExtraction.baseRent;
 							}
 							
 							
@@ -399,14 +380,14 @@ public class PropertyWare
 							try {
 								
 							if(RunnerClass.leaseStartDateFromDocument.equals(RunnerClass.leaseStartDatefromPW)&& RunnerClass.leaseEndDateFromDocument.equals(RunnerClass.leaseEndDatefromPW)) {
-								if(PDFReader.monthlyRentTaxFlag == true) {
-									RunnerClass.baseRent = PDFReader.totalMonthlyRentWithTax;
+								if(ReadingLeaseAggrements.monthlyTaxAmountFlag == true) {
+									RunnerClass.baseRent = ReadingLeaseAggrements.totalMonthlyRentWithTax;
 									RunnerClass.failedReason = "";
 									checkLeaseAgreementAvailable = true;
 									break;
 								}
 								else {
-									RunnerClass.baseRent = PDFReader.monthlyRent;
+									RunnerClass.baseRent = ReadingLeaseAggrements.monthlyRent;
 									RunnerClass.failedReason = "";
 									checkLeaseAgreementAvailable = true;
 									break;
@@ -423,14 +404,14 @@ public class PropertyWare
 						else {
 							try {
 								if(CommonMethods.compareBeforeDates(RunnerClass.leaseStartDateFromDocument,CommonMethods.getCurrentDate())&& CommonMethods.compareAfterDates(RunnerClass.leaseEndDateFromDocument,CommonMethods.getCurrentDate())) {
-									if(PDFReader.monthlyRentTaxFlag == true) {
-										RunnerClass.baseRent = PDFReader.totalMonthlyRentWithTax;
+									if(ReadingLeaseAggrements.monthlyTaxAmountFlag == true) {
+										RunnerClass.baseRent = ReadingLeaseAggrements.totalMonthlyRentWithTax;
 										RunnerClass.failedReason = "";
 										checkLeaseAgreementAvailable = true;
 										break;
 									}
 									else {
-										RunnerClass.baseRent = PDFReader.monthlyRent;
+										RunnerClass.baseRent = ReadingLeaseAggrements.monthlyRent;
 										RunnerClass.failedReason = "";
 										checkLeaseAgreementAvailable = true;
 										break;
@@ -444,12 +425,7 @@ public class PropertyWare
 							}
 							
 						}
-					}
-					else {
-						System.out.println("Unable to read PDF");
-						//RunnerClass.failedReason = "Issue in reading PDF";
-						break;
-					}
+				
 				
 				 }
 				 }
