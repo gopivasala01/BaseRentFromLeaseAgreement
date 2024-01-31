@@ -45,6 +45,7 @@ public class RunnerClass
 	public static String leaseEndDatefromPW ;
 	public static String leaseStartDateFromDocument;
 	public static String leaseEndDateFromDocument; 
+	public static boolean loggedOut = false;
 	
 	public static void main(String args[])
 	{
@@ -61,6 +62,19 @@ public class RunnerClass
 				{
 					try
 					{
+						try {
+							String expiredURL = RunnerClass.driver.getCurrentUrl();
+							if(expiredURL.contains("https://app.propertyware.com/pw/expired.jsp") || expiredURL.equalsIgnoreCase("https://app.propertyware.com/pw/expired.jsp?cookie") || expiredURL.contains(AppConfig.URL)) {
+								loggedOut = true;
+								RunnerClass.driver.navigate().to(AppConfig.URL);
+								RunnerClass.driver.findElement(Locators.userName).sendKeys(AppConfig.username); 
+							    RunnerClass.driver.findElement(Locators.password).sendKeys(AppConfig.password);
+							    Thread.sleep(2000);
+							    RunnerClass.driver.findElement(Locators.signMeIn).click();
+							    Thread.sleep(3000);
+							}
+						}
+						catch(Exception e) {}
 
 					ID = pendingLeases[i][0];
 					company = pendingLeases[i][1];
@@ -90,6 +104,7 @@ public class RunnerClass
 						previousRecordCompany= company;
 						continue;
 					}
+					loggedOut = false;
 					/*if(PropertyWare.downloadLeaseAgreementAndCompareStartDate()==false)
 					{
 						String query = "Update Automation.BaseRentFromLeaseAgreements set Automation_Status='Failed',Automation_Notes='"+failedReason+"',Automation_CompletionDate =getdate() where ID = '"+ID+"'";

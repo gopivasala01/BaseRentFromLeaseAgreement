@@ -95,7 +95,7 @@ public class PropertyWare
 	        PropertyWare.intermittentPopUp();
 	        //if(PropertyWare.checkIfBuildingIsDeactivated()==true)
 	        	//return false;
-	        if(RunnerClass.previousRecordCompany==null||!RunnerClass.previousRecordCompany.equals(RunnerClass.company)||RunnerClass.previousRecordCompany.equals(""))
+	        if(RunnerClass.previousRecordCompany==null||!RunnerClass.previousRecordCompany.equals(RunnerClass.company)||RunnerClass.previousRecordCompany.equals("") || RunnerClass.loggedOut == true)
 	        {
 	        RunnerClass.driver.findElement(Locators.marketDropdown).click();
 	        String marketName = "HomeRiver Group - "+RunnerClass.company;
@@ -116,7 +116,7 @@ public class PropertyWare
 	        if(PropertyWare.checkIfBuildingIsDeactivated()==true)
 	        	return false;
 	        String status = RunnerClass.driver.findElement(Locators.status).getText();
-	        if(status.equalsIgnoreCase("ACTIVE") || status.equalsIgnoreCase("Active - Month to Month")){
+	        if(status.equalsIgnoreCase("ACTIVE") || status.equalsIgnoreCase("Active - Month to Month") || status.equalsIgnoreCase("Active - TTO") || status.equalsIgnoreCase("Active - Notice Given")){
 	        	System.out.println("Status = " + status);
 	        	//RunnerClass.failedReason = "Lease is Active";
 	        	
