@@ -117,7 +117,7 @@ public class RunnerClass
 					{
 					//PDFDataExtract.Alabama_Format2.pdfScreenShot();
 					//baseRent = PDFReader.monthlyRent;
-					String query = "Update Automation.BaseRentFromLeaseAgreements set BaseRentFromAutoCharges='"+baseRent+"',Automation_Status='Completed',Automation_Notes='"+failedReason+"',Automation_CompletionDate =getdate() where ID = '"+ID+"'";
+					String query = "Update Automation.BaseRentFromLeaseAgreements set BaseRentFromLeaseAgreement='"+baseRent+"',Automation_Status='Completed',Automation_Notes='"+failedReason+"',Automation_CompletionDate =getdate() where ID = '"+ID+"'";
 							
 					DataBase.updateTable(query);
 					previousRecordCompany= company;
