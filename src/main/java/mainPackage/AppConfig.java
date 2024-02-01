@@ -9,7 +9,7 @@ public class AppConfig
 	   public static String password ="KRm#V39fecMDGg#";
 	   
 	   public static String excelFileLocation = "C:\\Users\\gopi\\Documents\\BaseRent Update Files";
-	   public static String downloadFilePath = "C:\\Users\\gopi\\Documents\\BaseRent Update Files";
+	   public static String downloadFilePath = "C:\\Users\\gopi\\Documents\\BaseRent Update Files\\Branch2";
 	   public static String logFilePath = "C:\\Users\\gopi\\Documents\\BaseRent Update Files\\LogsFolder";
 	   
 	   public static String pdfImage = "C:\\Users\\gopi\\Documents\\Base Rent\\";
