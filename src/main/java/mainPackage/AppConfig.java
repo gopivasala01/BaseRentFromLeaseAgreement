@@ -34,7 +34,7 @@ public class AppConfig
 	   
 	  // public static String leaseFetchQuery  = "Select Company, Building,leaseName from Automation.InitialRentsUpdate where Status ='Pending' and Company ='Georgia'";
 	   
-	   public static String pendingLeasesQuery = "Select ID, Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate,Status from Automation.BaseRentFromLeaseAgreements where  Company ='Tennessee' and Status in ('Active','Active - Notice Given','Active - TTO','Active - Month to Month') and Automation_Status is null";//and Automation_Notes in (',Unable to download Lease Agreement') "; //
+	   public static String pendingLeasesQuery = "Select ID, Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate,Status from Automation.BaseRentFromLeaseAgreements where  Company in ('Maryland','Lake Havasu','Chattanooga') and Status in ('Active','Active - Notice Given','Active - TTO','Active - Month to Month') and Automation_Status is null";//and Automation_Notes in (',Unable to download Lease Agreement') "; //
 	   
 	   public static String failedLeasesQuery = "Select Company, LeaseEntityID,DateDiff(Day,MoveInDate,Getdate()) as datedifference,moveInDate from Automation.BaseRentFromLeaseAgreements where  Company='Alabama' and Status ='Failed'";
 	   
